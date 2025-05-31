@@ -1,12 +1,14 @@
 package src.service;
 
-import src.pojo.RequisicaoLocacao;
-import src.pojo.RespostaLocacao;
-import src.pojo.Aparelho;
-import src.pojo.Cliente;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.Gson;
+
+import src.pojo.Aparelho;
+import src.pojo.Cliente;
+import src.pojo.RequisicaoLocacao;
+import src.pojo.RespostaLocacao;
 
 public class LocacaoImpl implements Locacao {
 
@@ -56,17 +58,15 @@ public class LocacaoImpl implements Locacao {
         return historicoLocacoes;
     }
 
-    // Método para exibir a quantidade disponível no estoque
     public static String listarEstoque() {
-        StringBuilder sb = new StringBuilder();
+        List<String> linhas = new ArrayList<>();
         for (Aparelho aparelho : estoque) {
-            sb.append(aparelho.getNome())
-              .append(": ")
-              .append(aparelho.getQtd())
-              .append(" unidades disponíveis\n");
+            linhas.add(aparelho.getNome() + ": " + aparelho.getQtd() + " unidades disponíveis");
         }
-        return sb.toString();
+        return new Gson().toJson(linhas);
     }
+
+    
 
     
     

@@ -2,13 +2,16 @@ package src.network;
 
 import src.pojo.*;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClienteConsole {
-    private static final String SERVIDOR = "localhost";
+    private static final String SERVIDOR = "192.168.0.8";
     private static final int PORTA = 12345;
     private static final Gson gson = new Gson();
     private static Scanner scanner = new Scanner(System.in);
@@ -49,21 +52,27 @@ public class ClienteConsole {
         }
     }
 
-    private static void listarProdutos() {
-        try (Socket socket = new Socket(SERVIDOR, PORTA);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
     
-            out.println("LISTAR_ESTOQUE");  // usa o mesmo comando da opção 5
-    
-            String jsonResp = in.readLine();
-            System.out.println("\nLista de produtos disponíveis:");
-            System.out.println(jsonResp);
-    
-        } catch (IOException e) {
-            System.err.println("Erro ao listar produtos: " + e.getMessage());
+private static void listarProdutos() {
+    try (Socket socket = new Socket(SERVIDOR, PORTA);
+         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+         PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+
+        out.println("LISTAR_ESTOQUE");
+
+        String jsonResp = in.readLine();
+        Type listType = new TypeToken<List<String>>() {}.getType();
+        List<String> produtos = gson.fromJson(jsonResp, listType);
+
+        System.out.println("\nLista de produtos disponíveis:");
+        for (String linha : produtos) {
+            System.out.println(linha);
         }
+
+    } catch (IOException e) {
+        System.err.println("Erro ao listar produtos: " + e.getMessage());
     }
+}
     
 
     private static void fazerLocacao() {

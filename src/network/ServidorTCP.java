@@ -25,31 +25,29 @@ public class ServidorTCP {
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                      PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-                    String jsonReq = in.readLine();
+                        String jsonReq = in.readLine();
 
-                    if (jsonReq == null) {
-                        System.err.println("Cliente desconectado sem enviar dados.");
-                        continue;
-                    }
-
-                    if (jsonReq.equals("LISTAR_ESTOQUE")) {
-                        out.println(LocacaoImpl.listarEstoque());
-                    }
-                    else if (jsonReq.equals("LISTAR_EMPRESTIMOS")) {
-                        List<String> historico = LocacaoImpl.getHistoricoLocacoes();
-                        out.println(historico.isEmpty() ? "Nenhum empréstimo registrado." : String.join("\n", historico));
-                    }
-                    else {
-                        // Requisição de locação em JSON
-                        RequisicaoLocacao requisicao = gson.fromJson(jsonReq, RequisicaoLocacao.class);
-                        RespostaLocacao resposta = servicoLocacao.alugarAparelho(requisicao);
-                        out.println(gson.toJson(resposta));
-                    }
-
-                    if (jsonReq == null) {
-                        System.err.println("Cliente desconectado sem enviar dados.");
-                        continue;
-                    }
+                        if (jsonReq == null) {
+                            System.err.println("Cliente desconectado sem enviar dados.");
+                            continue;
+                        }
+                        
+                        System.out.println("Requisição recebida do cliente: " + jsonReq); // Log aqui!
+                        
+                        if (jsonReq.equals("LISTAR_ESTOQUE")) {
+                            out.println(LocacaoImpl.listarEstoque());
+                        }
+                        else if (jsonReq.equals("LISTAR_EMPRESTIMOS")) {
+                            List<String> historico = LocacaoImpl.getHistoricoLocacoes();
+                            out.println(historico.isEmpty() ? "Nenhum empréstimo registrado." : String.join("\n", historico));
+                        }
+                        else {
+                            // Requisição de locação em JSON
+                            RequisicaoLocacao requisicao = gson.fromJson(jsonReq, RequisicaoLocacao.class);
+                            RespostaLocacao resposta = servicoLocacao.alugarAparelho(requisicao);
+                            out.println(gson.toJson(resposta));
+                        }
+                        
 
                     System.out.println("Requisição recebida do cliente: " + jsonReq); // << AQUI!
 
