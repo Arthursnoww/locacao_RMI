@@ -1,18 +1,15 @@
 package service;
 
-import pojo.Aparelho;
-import pojo.Cliente;
-import pojo.RequisicaoLocacao;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.google.gson.Gson;
+
+import pojo.Aparelho;
+import pojo.RequisicaoLocacao;
 
 public class LocacaoImpl extends UnicastRemoteObject implements Locacao {
 
@@ -22,6 +19,7 @@ public class LocacaoImpl extends UnicastRemoteObject implements Locacao {
 
     public LocacaoImpl() throws RemoteException {
         super();
+        // Estoque inicial com produtos novos
         estoque.add(new Aparelho("Gerador", 1500.0f, 5));
         estoque.add(new Aparelho("Mesa", 200.0f, 10));
         estoque.add(new Aparelho("Palco", 1000.0f, 2));
@@ -37,6 +35,8 @@ public class LocacaoImpl extends UnicastRemoteObject implements Locacao {
 
         return switch (methodId) {
             case "registrarLocacao" -> registrarLocacao(arguments);
+            case "listarEstoqueDisponivel" -> listarEstoqueDisponivel();
+            case "listarEmprestimosRealizados" -> listarEmprestimosRealizados();
             default -> gson.toJson("Método não reconhecido.").getBytes();
         };
     }
@@ -67,5 +67,16 @@ public class LocacaoImpl extends UnicastRemoteObject implements Locacao {
         }
     }
 
-    
+    @Override
+    public byte[] listarEstoqueDisponivel() throws RemoteException {
+        return gson.toJson(estoque).getBytes();
+    }
+
+    @Override
+    public byte[] listarEmprestimosRealizados() throws RemoteException {
+        return gson.toJson(historico.stream()
+            .map(loc -> loc.getCliente().getNome() + " alugou " + loc.getQuantidade() + "x " + loc.getAparelho().getNome())
+            .collect(Collectors.toList())
+        ).getBytes();
+    }
 }
