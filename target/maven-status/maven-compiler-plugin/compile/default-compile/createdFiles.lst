@@ -1,13 +1,8 @@
-service/Client$1.class
-pojo/Gerador.class
-service/Server.class
-pojo/Palco.class
-service/LocacaoImpl.class
 pojo/Cliente.class
-service/Client.class
 pojo/Talher.class
+pojo/Gerador.class
 pojo/RequisicaoLocacao.class
 pojo/Mesa.class
+pojo/Palco.class
 pojo/Aparelho.class
 service/Locacao.class
-service/Client$2.class
