@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Este projeto implementa um *sistema de locação de aparelhos* usando *Java RMI* (Remote Method Invocation).
+Este projeto implementa um *sistema de locação de aparelhos de festa(Gerador, Mesas, Palco, Talheres)* usando *Java RMI* (Remote Method Invocation).
 
 ## Funcionalidades
 
