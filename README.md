@@ -78,8 +78,8 @@ O cliente exibirá um menu de opções para listar os produtos, fazer locações
 | Etapa | Descrição                                            | Status      |
 | ----- | ---------------------------------------------------- | ----------- |
 | 1     | *POJOs e modelo de serviço*                        | ✅ Concluído |
-| 2     | *OutputStream personalizado*                       | ✅ Concluído |
-| 3     | *InputStream personalizado*                        | ✅ Concluído |
+| 2     | *Serialização*                                     | ✅ Concluído |
+| 3     | *Deserialização*                                   | ✅ Concluído |
 | 4     | *Comunicação cliente-servidor via RMI*             | ✅ Concluído |
 | 5     | *Estrutura de requisição/resposta com Gson e JSON* | ✅ Concluído |
 | 6     | *Testes de integração entre cliente e servidor*    | ✅ Concluído |
